@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Board Details</title>
+  
+    <style>
+        #electricity-board-section {
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .mb-3 {
+            margin-bottom: 1.5rem !important;
+        }
+    </style>
+</head>
+<body>
+
+<section id="electricity-board-section" class="container">
+    <h2 class="text-center mb-4">Electricity Board Details</h2>
+    <div class="card">
+        <h3 class="text-center">Contact Information</h3>
+        <div class="card-body">
+            <ul id="electricity-board-list" class="list-group list-group-flush">
+                <!-- Electricity board details will be dynamically added here -->
+            </ul>
+            <form id="electricity-board-form" class="mt-4">
+                <div class="form-group">
+                    <label for="eboardName" class="form-label">Electricity Board Name</label>
+                    <input type="text" class="form-control" id="eboardName" placeholder="Enter Electricity Board Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="eboardRegion" class="form-label">Region</label>
+                    <input type="text" class="form-control" id="eboardRegion" placeholder="Enter Region" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Add Electricity Board</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

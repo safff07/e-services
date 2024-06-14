@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .billing-history table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .billing-history th, .billing-history td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .billing-history th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="#" id="home">Home</a></li>
+            <li><a href="#" id="account-settings">Account Settings</a></li>
+            <li><a href="#" id="current-usage">Current Usage</a></li>
+            <li><a href="#" id="billing-history">Billing History</a></li>
+            
+            <li><a href="login.html" id="logout">Logout</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Welcome, User</h1>
+        </header>
+        <section id="home-section">
+            <h2>Home</h2>
+            <div class="card">
+                <h3>Overview</h3>
+                <p>Welcome to your electricity billing dashboard. Use the menu to navigate through your current usage, billing history, and account settings.</p>
+            </div>
+        </section>
+        <section id="current-usage-section" style="display: none;">
+            <h2>Current Usage</h2>
+            <div class="card">
+                <h3>Current Month Usage</h3>
+                <form id="current-usage-form">
+                    <label for="usage">Total Consumption (kWh):</label>
+                    <input type="number" id="usage" name="usage" required>
+                    <br><br>
+                    <label for="cost">Cost ($):</label>
+                    <input type="number" id="cost" name="cost" step="0.01" required>
+                    <br><br>
+                    <button type="submit">Add Usage</button>
+                </form>
+                <div id="current-usage-display" style="display:none;">
+                    <p id="display-usage"></p>
+                    <p id="display-cost"></p>
+                </div>
+            </div>
+        </section>
+        <section id="billing-history-section" style="display: none;">
+            <h2>Billing History</h2>
+            <div class="card billing-history">
+                <h3>Past Bills</h3>
+                <form id="billing-history-form">
+                    <label for="billing-date">Date:</label>
+                    <input type="month" id="billing-date" name="billing-date" required>
+                    <br><br>
+                    <label for="billing-usage">Usage (kWh):</label>
+                    <input type="number" id="billing-usage" name="billing-usage" required>
+                    <br><br>
+                    <label for="billing-cost">Cost ($):</label>
+                    <input type="number" id="billing-cost" name="billing-cost" step="0.01" required>
+                    <br><br>
+                    <label for="billing-status">Status:</label>
+                    <select id="billing-status" name="billing-status" required>
+                        <option value="Paid">Paid</option>
+                        <option value="Unpaid">Unpaid</option>
+                    </select>
+                    <br><br>
+                    <button type="submit">Add Bill</button>
+                </form>
+                <div id="billing-history-display" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Usage (kWh)</th>
+                                <th>Cost ($)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billing-history-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section id="account-settings-section" style="display: none;">
+            <h2>Account Settings</h2>
+            <div class="card">
+                <h3>Personal Information</h3>
+                <form id="account-settings-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <br><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <br><br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <br><br>
+                    <button type="submit">Update</button>
+                </form>
+                <div id="account-settings-display" style="display:none;">
+                    <p id="display-name"></p>
+                    <p id="display-email"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const homeLink = document.getElementById('home');
+            const currentUsageLink = document.getElementById('current-usage');
+            const billingHistoryLink = document.getElementById('billing-history');
+            const accountSettingsLink = document.getElementById('account-settings');
+
+            const homeSection = document.getElementById('home-section');
+            const currentUsageSection = document.getElementById('current-usage-section');
+            const billingHistorySection = document.getElementById('billing-history-section');
+            const accountSettingsSection = document.getElementById('account-settings-section');
+
+            homeLink.addEventListener('click', () => {
+                homeSection.style.display = 'block';
+                currentUsageSection.style.display = 'none';
+                billingHistorySection.style.display = 'none';
+                accountSettingsSection.style.display = 'none';
+            });
+
+            currentUsageLink.addEventListener('click', () => {
+                homeSection.style.display = 'none';
+                currentUsageSection.style.display = 'block';
+                billingHistorySection.style.display = 'none';
+                accountSettingsSection.style.display = 'none';
+            });
+
+            billingHistoryLink.addEventListener('click', () => {
+                homeSection.style.display = 'none';
+                currentUsageSection.style.display = 'none';
+                billingHistorySection.style.display = 'block';
+                accountSettingsSection.style.display = 'none';
+            });
+
+            accountSettingsLink.addEventListener('click', () => {
+                homeSection.style.display = 'none';
+                currentUsageSection.style.display = 'none';
+                billingHistorySection.style.display = 'none';
+                accountSettingsSection.style.display = 'block';
+            });
+
+            const currentUsageForm = document.getElementById('current-usage-form');
+            const currentUsageDisplay = document.getElementById('current-usage-display');
+            const displayUsage = document.getElementById('display-usage');
+            const displayCost = document.getElementById('display-cost');
+
+            currentUsageForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const usage = document.getElementById('usage').value;
+                const cost = document.getElementById('cost').value;
+                displayUsage.textContent = `Total Consumption: ${usage} kWh`;
+                displayCost.textContent = `Cost: $${cost}`;
+                currentUsageDisplay.style.display = 'block';
+                currentUsageForm.reset();
+            });
+
+            const billingHistoryForm = document.getElementById('billing-history-form');
+            const billingHistoryDisplay = document.getElementById('billing-history-display');
+            const billingHistoryTableBody = document.getElementById('billing-history-table-body');
+
+            billingHistoryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const billingDate = document.getElementById('billing-date').value;
+                const billingUsage = document.getElementById('billing-usage').value;
+                const billingCost = document.getElementById('billing-cost').value;
+                const billingStatus = document.getElementById('billing-status').value;
+
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${billingDate}</td>
+                    <td>${billingUsage}</td>
+                    <td>$${billingCost}</td>
+                    <td>${billingStatus}</td>
+                `;
+                billingHistoryTableBody.appendChild(newRow);
+                billingHistoryDisplay.style.display = 'block';
+                billingHistoryForm.reset();
+            });
+
+            const accountSettingsForm = document.getElementById('account-settings-form');
+            const accountSettingsDisplay = document.getElementById('account-settings-display');
+            const displayName = document.getElementById('display-name');
+            const displayEmail = document.getElementById('display-email');
+
+            accountSettingsForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+
+                displayName.textContent = `Name: ${name}`;
+                displayEmail.textContent = `Email: ${email}`;
+                accountSettingsDisplay.style.display = 'block';
+                accountSettingsForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>

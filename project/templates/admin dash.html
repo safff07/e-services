@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Billing Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar h2, .sidebar ul, .sidebar ul li {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+        }
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        section, .tabs-content > div {
+            display: none;
+        }
+        section.active, .tabs-content > div.active {
+            display: block;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .tabs a {
+            text-decoration: none;
+            color: black;
+            padding: 10px;
+        }
+        .tabs a:hover {
+            text-decoration: underline;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        .billing-history table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .billing-history th, .billing-history td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .billing-history th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="#" class="nav-link" data-section="home-section">Home</a></li>
+            <li><a href="#" class="nav-link" data-section="current-usage-section">Current Usage</a></li>
+            <li><a href="#" class="nav-link" data-section="billing-history-section">Billing History</a></li>
+            <li><a href="#" class="nav-link" data-section="account-settings-section">Account Settings</a></li>
+            <li><a href="#" class="nav-link" data-section="tariff-plans-section">Tariff Plans</a></li>
+            <li><a href="#" class="nav-link" data-section="electricity-board-section">Electricity Board Details</a></li>
+            <li><a href="index.html">Logout</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Welcome, Admin</h1>
+        </header>
+        <section id="home-section" class="active">
+            <div class="tabs">
+                <a href="#" class="tab-link" data-tab="user-details">User Details</a>
+                <a href="#" class="tab-link" data-tab="generate-bill">Generate Bill</a>
+                <a href="#" class="tab-link" data-tab="transaction-history">Transaction History</a>
+            </div>
+            <div class="tabs-content">
+                <div id="user-details" class="active">
+                    <h2>User Details</h2>
+                    <div class="card">
+                        <h3>User Information</h3>
+                        <p>Display user information here.</p>
+                    </div>
+                </div>
+                <div id="generate-bill">
+                    <div class="container">
+                        <div class="bill-header">
+                        </div>
+                        <div class="bill-section">
+                            <h2>Enter Bill Details</h2>
+                            <form id="bill-form">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="address" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="accountNumber" class="form-label">Account Number</label>
+                                    <input type="text" class="form-control" id="accountNumber" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="billDate" class="form-label">Bill Date</label>
+                                    <input type="date" class="form-control" id="billDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dueDate" class="form-label">Due Date</label>
+                                    <input type="date" class="form-control" id="dueDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="usage" class="form-label">Electricity Usage (kWh)</label>
+                                    <input type="number" class="form-control" id="usage" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tariffPlan" class="form-label">Tariff Plan</label>
+                                    <select class="form-control" id="tariffPlan" required>
+                                        <option value="">Select Plan</option>
+                                        <!-- Tariff plans will be dynamically added here -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="serviceCharge" class="form-label">Service Charge ($)</label>
+                                    <input type="number" class="form-control" id="serviceCharge" step="0.01" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="taxes" class="form-label">Taxes ($)</label>
+                                    <input type="number" class="form-control" id="taxes" step="0.01" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="otherFees" class="form-label">Other Fees ($)</label>
+                                    <input type="number" class="form-control" id="otherFees" step="0.01" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Generate Bill</button>
+                            </form>
+                        </div>
+                        <div id="bill" class="bill-section" style="display: none;">
+                            <h2>Generated Bill</h2>
+                            <div class="bill-details">
+                                <p><strong>Name:</strong> <span id="display-name"></span></p>
+                                <p><strong>Address:</strong> <span id="display-address"></span></p>
+                                <p><strong>Account Number:</strong> <span id="display-accountNumber"></span></p>
+                            </div>
+                            <div class="bill-details">
+                                <p><strong>Billing Period:</strong> <span id="display-billingPeriod"></span></p>
+                                <p><strong>Bill Date:</strong> <span id="display-billDate"></span></p>
+                                <p><strong>Due Date:</strong> <span id="display-dueDate"></span></p>
+                            </div>
+                            <div class="charges-summary">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Charge Type</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Electricity Usage (<span id="display-usage"></span> kWh @ $<span id="display-rate"></span>/kWh)</td>
+                                            <td>$<span id="display-usageAmount"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Service Charge</td>
+                                            <td>$<span id="display-serviceCharge"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taxes</td>
+                                            <td>$<span id="display-taxes"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Other Fees</td>
+                                            <td>$<span id="display-otherFees"></span></td>
+                                        </tr>
+                                        <tr class="total-amount">
+                                            <td>Total Amount Due</td>
+                                            <td>$<span id="display-totalAmount"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="transaction-history">
+                    <h2>Transaction History</h2>
+                    <p>Display transaction history here.</p>
+                </div>
+            </div>
+        </section>
+        <section id="current-usage-section">
+            <h2>Current Usage</h2>
+            <div class="card">
+                <h3>Current Electricity Usage</h3>
+                <p>Display current usage details here.</p>
+            </div>
+        </section>
+        <section id="billing-history-section">
+            <h2>Billing History</h2>
+            <div class="billing-history">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Usage (kWh)</th>
+                            <th>Amount ($)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/01/2024</td>
+                            <td>500</td>
+                            <td>75.00</td>
+                            <td>Paid</td>
+                        </tr>
+                        <tr>
+                            <td>01/02/2024</td>
+                            <td>450</td>
+                            <td>67.50</td>
+                            <td>Paid</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="account-settings-section">
+            <h2>Account Settings</h2>
+            <p>Display account settings here.</p>
+        </section>
+        <section id="tariff-plans-section">
+            <h2>Tariff Plans</h2>
+            <div class="card">
+                <h3>Available Tariff Plans</h3>
+                <ul id="tariff-plans-list">
+                    <!-- Tariff plans will be dynamically added here -->
+                </ul>
+                <form id="tariff-plan-form">
+                    <div class="mb-3">
+                        <label for="planName" class="form-label">Plan Name</label>
+                        <input type="text" class="form-control" id="planName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="planType" class="form-label">Plan Type</label>
+                        <select class="form-control" id="planType" required>
+                            <option value="Domestic - Rural">Domestic - Rural</option>
+                            <option value="Domestic - Urban">Domestic - Urban</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Industrial">Industrial</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="planRate" class="form-label">Rate per kWh ($)</label>
+                        <input type="number" class="form-control" id="planRate" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Tariff Plan</button>
+                </form>
+            </div>
+        </section>
+        <section id="electricity-board-section">
+            <h2>Electricity Board Details</h2>
+            <div class="card">
+                <h3>Contact Information</h3>
+                <ul id="electricity-board-list">
+                    <!-- Electricity board details will be dynamically added here -->
+                </ul>
+                <form id="electricity-board-form">
+                    <div class="mb-3">
+                        <label for="eboardName" class="form-label">Electricity Board Name</label>
+                        <input type="text" class="form-control" id="eboardName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eboardRegion" class="form-label">Region</label>
+                        <input type="text" class="form-control" id="eboardRegion" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Electricity Board</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tabs-content > div');
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    tabContents.forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            const billForm = document.getElementById('bill-form');
+            const billSection = document.getElementById('bill');
+
+            const tariffPlans = [];
+            const electricityBoards = [];
+
+            const tariffPlanForm = document.getElementById('tariff-plan-form');
+            const tariffPlansList = document.getElementById('tariff-plans-list');
+            const tariffPlanSelect = document.getElementById('tariffPlan');
+
+            tariffPlanForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const planName = document.getElementById('planName').value;
+                const planType = document.getElementById('planType').value;
+                const planRate = parseFloat(document.getElementById('planRate').value).toFixed(2);
+
+                const newPlan = { name: planName, type: planType, rate: planRate };
+                tariffPlans.push(newPlan);
+
+                const planItem = document.createElement('li');
+                planItem.textContent = `${planName} (${planType}): $${planRate} per kWh`;
+                tariffPlansList.appendChild(planItem);
+
+                const planOption = document.createElement('option');
+                planOption.value = planName;
+                planOption.textContent = `${planName} (${planType})`;
+                tariffPlanSelect.appendChild(planOption);
+
+                tariffPlanForm.reset();
+            });
+
+            const electricityBoardForm = document.getElementById('electricity-board-form');
+            const electricityBoardList = document.getElementById('electricity-board-list');
+
+            electricityBoardForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const eboardName = document.getElementById('eboardName').value;
+                const eboardRegion = document.getElementById('eboardRegion').value;
+
+                const newBoard = { name: eboardName, region: eboardRegion };
+                electricityBoards.push(newBoard);
+
+                const boardItem = document.createElement('li');
+                boardItem.textContent = `${eboardName} (Region: ${eboardRegion})`;
+                electricityBoardList.appendChild(boardItem);
+
+                electricityBoardForm.reset();
+            });
+
+            billForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const address = document.getElementById('address').value;
+                const accountNumber = document.getElementById('accountNumber').value;
+                const billDate = document.getElementById('billDate').value;
+                const dueDate = document.getElementById('dueDate').value;
+                const usage = parseFloat(document.getElementById('usage').value);
+                const selectedPlan = tariffPlans.find(plan => plan.name === document.getElementById('tariffPlan').value);
+                const rate = parseFloat(selectedPlan.rate);
+                const serviceCharge = parseFloat(document.getElementById('serviceCharge').value);
+                const taxes = parseFloat(document.getElementById('taxes').value);
+                const otherFees = parseFloat(document.getElementById('otherFees').value);
+
+                const usageAmount = usage * rate;
+                const totalAmount = usageAmount + serviceCharge + taxes + otherFees;
+
+                document.getElementById('display-name').textContent = name;
+                document.getElementById('display-address').textContent = address;
+                document.getElementById('display-accountNumber').textContent = accountNumber;
+                document.getElementById('display-billingPeriod').textContent = `${billDate} - ${dueDate}`;
+                document.getElementById('display-billDate').textContent = billDate;
+                document.getElementById('display-dueDate').textContent = dueDate;
+                document.getElementById('display-usage').textContent = usage;
+                document.getElementById('display-rate').textContent = rate.toFixed(2);
+                document.getElementById('display-usageAmount').textContent = usageAmount.toFixed(2);
+                document.getElementById('display-serviceCharge').textContent = serviceCharge.toFixed(2);
+                document.getElementById('display-taxes').textContent = taxes.toFixed(2);
+                document.getElementById('display-otherFees').textContent = otherFees.toFixed(2);
+                document.getElementById('display-totalAmount').textContent = totalAmount.toFixed(2);
+
+                billSection.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

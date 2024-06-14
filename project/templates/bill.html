@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .bill-container {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .bill-header {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .bill-section {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .bill-section:last-child {
+            border-bottom: none;
+        }
+
+        .bill-section p {
+            margin: 5px 0;
+        }
+
+        .bill-summary {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .total-amount {
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="bill-container">
+        <div class="bill-header">
+            <h2>BILL DETAILS</h2>
+        </div>
+        <div class="bill-section">
+            <p>Amount of your last bill: <span class="bill-summary">$10.76</span></p>
+            <p>Payment received - Thank you: <span class="bill-summary">- $10.76</span></p>
+            <p>Balance before new charges: <span class="bill-summary">$0.00</span></p>
+        </div>
+        <div class="bill-section">
+            <p><strong>New Charges</strong></p>
+            <p>Rate: RS-1 RESIDENTIAL SERVICE</p>
+            <p>Base charge: <span class="bill-summary">$8.99</span></p>
+            <p>Minimum base bill: <span class="bill-summary">$16.01</span></p>
+            <p>Non-fuel energy charge:</p>
+            <ul>
+                <li>First 1000 KWh: <span class="bill-summary">$0.073710 per KWh</span></li>
+                <li>Over 1000 KWh: <span class="bill-summary">$0.083710 per KWh</span></li>
+            </ul>
+            <p>Fuel charge:</p>
+            <ul>
+                <li>First 1000 KWh: <span class="bill-summary">$0.034870 per KWh</span></li>
+                <li>Over 1000 KWh: <span class="bill-summary">$0.044870 per KWh</span></li>
+            </ul>
+        </div>
+        <div class="bill-section">
+            <p>Electric service amount: <span class="bill-summary">$25.00</span></p>
+            <p>Gross rec. tax/Regulatory fee: <span class="bill-summary">$0.66</span></p>
+            <p>Franchise charge: <span class="bill-summary">$1.52</span></p>
+            <p>Utility tax: <span class="bill-summary">$2.72</span></p>
+            <p>Taxes and charges: <span class="bill-summary">$4.90</span></p>
+        </div>
+        <div class="bill-section">
+            <p>Total new charges: <span class="bill-summary">$29.90</span></p>
+        </div>
+        <div class="total-amount">
+            <p>Total amount you owe: $29.90</p>
+        </div>
+        <div class="note">
+            <p>FPL automatic bill pay - DO NOT PAY</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("Document loaded");
+        });
+    </script>
+</body>
+</html>
